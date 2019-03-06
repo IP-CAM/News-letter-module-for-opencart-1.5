@@ -1,7 +1,7 @@
 <?php
-	class ModelModuleRfnewsletter extends Model {
+	class ModelModuleNewsletter extends Model {
 		public function createTable($data) {
-			$this->db->query("CREATE TABLE IF NOT EXISTS `rfnewsletter` (
+			$this->db->query("CREATE TABLE IF NOT EXISTS `newsletter` (
 							  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 							  `name` varchar(255) DEFAULT NULL,
 							  `email` varchar(255) DEFAULT NULL,
@@ -11,13 +11,13 @@
 		}
 
 		public function getData() {
-			$query = $this->db->query("select * from rfnewsletter");
+			$query = $this->db->query("select * from newsletter");
 
 			return $query->rows;
 		}
 		/**/
 		public function deleteData($id=0) {
-			$query = $this->db->query("DELETE FROM rfnewsletter WHERE id='".$id."'");
+			$query = $this->db->query("DELETE FROM newsletter WHERE id='".$id."'");
 			return true;
 		}
 	}

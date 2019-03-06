@@ -1,16 +1,16 @@
 <?php
-class ControllerModuleRfnewsletter extends Controller {
+class ControllerModuleNewsletter extends Controller {
 	private $error = array(); 
 	
 	public function index() {   
-		$this->load->language('module/rfnewsletter');
+		$this->load->language('module/newsletter');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		
 		$this->load->model('setting/setting');
 				
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->model_setting_setting->editSetting('rfnewsletter', $this->request->post);		
+			$this->model_setting_setting->editSetting('newsletter', $this->request->post);		
 					
 			$this->session->data['success'] = $this->language->get('text_success');
 						
@@ -59,29 +59,29 @@ class ControllerModuleRfnewsletter extends Controller {
 		
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('module/rfnewsletter', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('module/newsletter', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
 		
-		$this->data['action'] = $this->url->link('module/rfnewsletter', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['action'] = $this->url->link('module/newsletter', 'token=' . $this->session->data['token'], 'SSL');
 		
 		$this->data['cancel'] = $this->url->link('extension/module', 'token=' . $this->session->data['token'], 'SSL');
 
-		$this->data['data'] = $this->url->link('module/rfnewsletter/data', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['data'] = $this->url->link('module/newsletter/data', 'token=' . $this->session->data['token'], 'SSL');
 				
 		$this->data['modules'] = array();
 		
-		if (isset($this->request->post['rfnewsletter_module'])) {
-			$this->data['modules'] = $this->request->post['rfnewsletter_module'];
-		} elseif ($this->config->get('rfnewsletter_module')) { 
-			$this->data['modules'] = $this->config->get('rfnewsletter_module');
+		if (isset($this->request->post['newsletter_module'])) {
+			$this->data['modules'] = $this->request->post['newsletter_module'];
+		} elseif ($this->config->get('newsletter_module')) { 
+			$this->data['modules'] = $this->config->get('newsletter_module');
 		}		
 		
 		$this->load->model('design/layout');
 		
 		$this->data['layouts'] = $this->model_design_layout->getLayouts();
 
-		$this->template = 'module/rfnewsletter.tpl';
+		$this->template = 'module/newsletter.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer',
@@ -91,7 +91,7 @@ class ControllerModuleRfnewsletter extends Controller {
 	}
 	
 	private function validate() {
-		if (!$this->user->hasPermission('modify', 'module/rfnewsletter')) {
+		if (!$this->user->hasPermission('modify', 'module/newsletter')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
@@ -103,30 +103,30 @@ class ControllerModuleRfnewsletter extends Controller {
 	}
 
 	public function install() {
-		$this->load->model('module/rfnewsletter');
-		$this->model_module_rfnewsletter->createTable();
+		$this->load->model('module/newsletter');
+		$this->model_module_newsletter->createTable();
 	}
 	public function delete() {
-		$this->load->language('module/rfnewsletter');
+		$this->load->language('module/newsletter');
 	
     	$this->document->setTitle($this->language->get('heading_title'));
 		
-		$this->load->model('module/rfnewsletter');
+		$this->load->model('module/newsletter');
 		
     	if (isset($this->request->post['selected']) && $this->validate()) {
 			foreach ($this->request->post['selected'] as $id) {
-				$this->model_module_rfnewsletter->deleteData($id);
+				$this->model_module_newsletter->deleteData($id);
 			}
 			      		
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->redirect($this->url->link('module/rfnewsletter/data', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->redirect($this->url->link('module/newsletter/data', 'token=' . $this->session->data['token'], 'SSL'));
    		}
 	
     	$this->getList();
   	}
 	public function data() {   
-		$this->load->language('module/rfnewsletter');
+		$this->load->language('module/newsletter');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -188,23 +188,23 @@ class ControllerModuleRfnewsletter extends Controller {
 		
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('heading_title'),
-			'href'      => $this->url->link('module/rfnewsletter', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('module/newsletter', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
 
    		$this->data['breadcrumbs'][] = array(
        		'text'      => $this->language->get('button_data'),
-			'href'      => $this->url->link('module/rfnewsletter/data', 'token=' . $this->session->data['token'], 'SSL'),
+			'href'      => $this->url->link('module/newsletter/data', 'token=' . $this->session->data['token'], 'SSL'),
       		'separator' => ' :: '
    		);
-		$this->data['export'] = $this->url->link('module/rfnewsletter/export', 'token=' . $this->session->data['token'], 'SSL');
-		$this->data['send'] = $this->url->link('module/rfnewsletter/send', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$this->data['delete'] = $this->url->link('module/rfnewsletter/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['export'] = $this->url->link('module/newsletter/export', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['send'] = $this->url->link('module/newsletter/send', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$this->data['delete'] = $this->url->link('module/newsletter/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-		$this->load->model('module/rfnewsletter');
-		$this->data['data'] = $this->model_module_rfnewsletter->getData();
+		$this->load->model('module/newsletter');
+		$this->data['data'] = $this->model_module_newsletter->getData();
 
-		$this->template = 'module/rfnewsletter_data.tpl';
+		$this->template = 'module/newsletter_data.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer',
@@ -214,8 +214,8 @@ class ControllerModuleRfnewsletter extends Controller {
 	}
 
 	public function export() {
-		$this->load->model('module/rfnewsletter');
-		$data = $this->model_module_rfnewsletter->getData();
+		$this->load->model('module/newsletter');
+		$data = $this->model_module_newsletter->getData();
 		foreach ($data as $user) {
 			echo($user['name']) .',';
 			echo($user['email']) .',';
@@ -233,7 +233,7 @@ class ControllerModuleRfnewsletter extends Controller {
 	}
 
 	public function send() {
-		$this->load->language('module/rfnewsletter');
+		$this->load->language('module/newsletter');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -246,11 +246,11 @@ class ControllerModuleRfnewsletter extends Controller {
 		$this->data['button_send'] = $this->language->get('button_send');
 		$this->data['button_cancel'] = $this->language->get('button_cancel');
 		$this->data['token'] = $this->session->data['token'];
-		$this->data['cancel'] = $this->url->link('module/rfnewsletter/data', 'token=' . $this->session->data['token'], 'SSL');
+		$this->data['cancel'] = $this->url->link('module/newsletter/data', 'token=' . $this->session->data['token'], 'SSL');
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 			$json = array();
-			if (!$this->user->hasPermission('modify', 'module/rfnewsletter')) {
+			if (!$this->user->hasPermission('modify', 'module/newsletter')) {
 				$json['error']['warning'] = $this->language->get('error_permission');
 			}
 					
@@ -278,8 +278,8 @@ class ControllerModuleRfnewsletter extends Controller {
 							
 				$emails = array();
 
-				$this->load->model('module/rfnewsletter');
-				$results = $this->model_module_rfnewsletter->getData();
+				$this->load->model('module/newsletter');
+				$results = $this->model_module_newsletter->getData();
 				foreach ($results as $result) {
 					$emails[$result['id']] = $result['email'];
 					$email_total++;
@@ -333,7 +333,7 @@ class ControllerModuleRfnewsletter extends Controller {
 			exit;
 		}
 
-		$this->template = 'module/rfnewsletter_send.tpl';
+		$this->template = 'module/newsletter_send.tpl';
 		$this->children = array(
 			'common/header',
 			'common/footer',
